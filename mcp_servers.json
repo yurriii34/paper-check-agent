@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "course-info": {
+      "enabled": false,
+      "description": "本项目使用 4 个自定义工具完成论文检查，无需 MCP 服务器。此文件保留以便后续扩展。",
+      "transport": "stdio",
+      "command": "python",
+      "args": ["mcp_server.py"]
+    }
+  }
+}

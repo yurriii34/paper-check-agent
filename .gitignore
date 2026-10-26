@@ -1,0 +1,16 @@
+# 密钥与虚拟环境
+.env
+.venv/
+venv/
+__pycache__/
+*.pyc
+
+# 运行产物（每次运行重新生成，无需提交）
+data/
+workspace/*.md
+workspace/*.xlsx
+!workspace/.gitkeep
+
+# 系统
+.DS_Store
+*.db

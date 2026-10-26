@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>论文规范与引用检查助手 · 期末答辩</title>
+<style>
+  :root{
+    --bg:#f5f7fa; --card:#ffffff; --ink:#1f2937; --muted:#6b7280;
+    --accent:#2563eb; --accent2:#0ea5e9; --good:#16a34a; --warn:#d97706; --bad:#dc2626;
+    --line:#e5e7eb;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{
+    background:var(--bg); color:var(--ink);
+    font-family:"Microsoft YaHei","PingFang SC","Hiragino Sans GB",sans-serif;
+    overflow:hidden;
+  }
+  #deck{position:relative;width:100vw;height:100vh}
+  .slide{
+    position:absolute;inset:0;display:none;flex-direction:column;
+    padding:56px 72px;background:var(--bg);
+  }
+  .slide.active{display:flex}
+  .slide h1{font-size:40px;line-height:1.25;margin-bottom:8px}
+  .slide h2{font-size:28px;margin-bottom:18px;color:var(--accent);
+    border-left:6px solid var(--accent);padding-left:14px}
+  .slide h3{font-size:20px;margin:14px 0 8px;color:var(--ink)}
+  .slide p,.slide li{font-size:18px;line-height:1.7;color:#374151}
+  .slide ul,.slide ol{margin:6px 0 6px 26px}
+  .muted{color:var(--muted);font-size:15px}
+  .tag{display:inline-block;background:#eef2ff;color:var(--accent);
+    border-radius:999px;padding:4px 14px;font-size:15px;margin:2px 6px 2px 0}
+  .grid{display:grid;gap:16px;margin-top:10px}
+  .g2{grid-template-columns:1fr 1fr}
+  .g3{grid-template-columns:repeat(3,1fr)}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;
+    padding:18px 20px;box-shadow:0 2px 8px rgba(15,23,42,.04)}
+  .card b{color:var(--accent)}
+  table{width:100%;border-collapse:collapse;font-size:16px;margin-top:8px}
+  th,td{border:1px solid var(--line);padding:9px 12px;text-align:left;vertical-align:top}
+  th{background:#eff6ff;color:var(--accent)}
+  .ok{color:var(--good);font-weight:700}
+  .no{color:var(--bad);font-weight:700}
+  .warn{color:var(--warn);font-weight:700}
+  .cover{justify-content:center;align-items:flex-start;background:
+    radial-gradient(1200px 600px at 80% -10%,#dbeafe 0,transparent 60%),var(--bg)}
+  .cover .kicker{color:var(--accent);font-weight:700;letter-spacing:2px;font-size:16px}
+  .cover h1{font-size:54px;margin:10px 0 6px}
+  .cover .sub{font-size:22px;color:var(--muted);margin-bottom:30px}
+  .meta{font-size:18px;color:#374151}
+  .meta span{display:inline-block;min-width:96px;color:var(--muted)}
+  .pill{display:inline-block;background:var(--accent);color:#fff;border-radius:8px;
+    padding:6px 14px;font-size:15px;margin-right:8px}
+  .foot{position:absolute;bottom:22px;right:32px;color:var(--muted);font-size:13px}
+  .footl{position:absolute;bottom:22px;left:32px;color:var(--muted);font-size:13px}
+  .navbtn{position:absolute;top:50%;transform:translateY(-50%);
+    background:var(--card);border:1px solid var(--line);border-radius:50%;
+    width:46px;height:46px;font-size:20px;color:var(--accent);cursor:pointer;
+    box-shadow:0 2px 8px rgba(15,23,42,.08);user-select:none}
+  .navbtn:hover{background:#eff6ff}
+  #prev{left:14px}#next{right:14px}
+  svg{max-width:100%}
+  .code{font-family:"Consolas","Courier New",monospace;font-size:14px;
+    background:#0f172a;color:#e2e8f0;padding:14px 16px;border-radius:10px;overflow:auto}
+</style>
+</head>
+<body>
+<div id="deck">
+
+  <!-- 1. 封面 -->
+  <section class="slide cover active">
+    <div class="kicker">开源 AI 技术实践 · 期末答辩</div>
+    <h1>论文规范与引用检查助手</h1>
+    <div class="sub">路径 A：技术栈较完整的智能体应用（对标 demo_5）｜ LangChain Deep Agents ＋ 阿里百炼 ＋ Streamlit</div>
+      <div class="meta">
+        <div><span>姓名：</span>季茹意（学号 f25016506）</div>
+        <div><span>姓名：</span>闵敏（学号 f25011216）</div>
+        <div><span>组别：</span>两人组（均须能讲解代码与设计）</div>
+        <div><span>场景：</span>帮助学生检查论文参考文献格式与真实性，不代写</div>
+      </div>
+    <div style="margin-top:26px">
+      <span class="pill">OpenAI 兼容接口</span>
+      <span class="pill">Deep Agents 框架</span>
+      <span class="pill">4 自定义工具</span>
+      <span class="pill">Agent Skill</span>
+      <span class="pill">流式可演示</span>
+    </div>
+    <div class="foot">← / → 翻页 · 空格下一步</div>
+  </section>
+
+  <!-- 2. 问题与用户 -->
+  <section class="slide">
+    <h2>一、问题与用户</h2>
+    <div class="grid g2">
+      <div class="card">
+        <h3>用户是谁</h3>
+        <p>正在写<b>课程论文 / 毕业论文</b>的大学生、研究生。他们懂研究，但不熟悉 GB/T 7714 著录规则。</p>
+      </div>
+      <div class="card">
+        <h3>痛点</h3>
+        <ul>
+          <li>格式不统一：缺文献类型码、缺年份、标点混用</li>
+          <li><b>漏引</b>：正文引了列表没有，或列表有但正文没引</li>
+          <li>文献真假难辨：引用了不存在或拼错的文献</li>
+        </ul>
+      </div>
+    </div>
+    <h3>一句话价值</h3>
+    <p>把"找问题 → 核验 → 出报告"做成<b>能规划、会用工具、能产出文件</b>的 Agent，而不是单轮聊天框。</p>
+    <div class="footl">符合选题边界：学术诚信方向，只检查不代写</div>
+  </section>
+
+  <!-- 3. 总体架构 -->
+  <section class="slide">
+    <h2>二、总体架构</h2>
+    <div style="display:flex;justify-content:center">
+    <svg viewBox="0 0 920 360" width="880">
+      <defs>
+        <marker id="ar" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+          <path d="M0,0 L8,3 L0,6 Z" fill="#2563eb"/>
+        </marker>
+      </defs>
+      <!-- 用户 -->
+      <rect x="20" y="150" width="120" height="60" rx="10" fill="#dbeafe" stroke="#2563eb"/>
+      <text x="80" y="185" text-anchor="middle" font-size="16" fill="#1f2937">学生用户</text>
+      <!-- 界面 -->
+      <rect x="190" y="150" width="130" height="60" rx="10" fill="#ffffff" stroke="#2563eb"/>
+      <text x="255" y="180" text-anchor="middle" font-size="15" fill="#1f2937">Streamlit</text>
+      <text x="255" y="198" text-anchor="middle" font-size="12" fill="#6b7280">上传/对话</text>
+      <!-- Agent -->
+      <rect x="380" y="130" width="160" height="100" rx="12" fill="#1e3a8a" stroke="#1e3a8a"/>
+      <text x="460" y="175" text-anchor="middle" font-size="16" fill="#fff">Deep Agent</text>
+      <text x="460" y="197" text-anchor="middle" font-size="12" fill="#cbd5e1">规划·调工具·出报告</text>
+      <!-- 模型 -->
+      <rect x="600" y="20" width="170" height="56" rx="10" fill="#fff" stroke="#0ea5e9"/>
+      <text x="685" y="44" text-anchor="middle" font-size="14" fill="#0f172a">阿里百炼 Qwen</text>
+      <text x="685" y="62" text-anchor="middle" font-size="12" fill="#6b7280">OpenAI 兼容</text>
+      <!-- 工具 -->
+      <rect x="600" y="100" width="170" height="100" rx="10" fill="#fff" stroke="#16a34a"/>
+      <text x="685" y="124" text-anchor="middle" font-size="14" fill="#14532d">4 个自定义工具</text>
+      <text x="685" y="144" text-anchor="middle" font-size="11" fill="#6b7280">parse / format</text>
+      <text x="685" y="160" text-anchor="middle" font-size="11" fill="#6b7280">doi / report</text>
+      <text x="685" y="178" text-anchor="middle" font-size="11" fill="#6b7280">GB/T 7714 + Crossref</text>
+      <!-- Skill/记忆 -->
+      <rect x="600" y="220" width="170" height="56" rx="10" fill="#fff" stroke="#d97706"/>
+      <text x="685" y="244" text-anchor="middle" font-size="13" fill="#92400e">Skill + 长期记忆</text>
+      <text x="685" y="262" text-anchor="middle" font-size="11" fill="#6b7280">paper-check / AGENTS.md</text>
+      <!-- 子代理 -->
+      <rect x="600" y="295" width="170" height="48" rx="10" fill="#fff" stroke="#7c3aed"/>
+      <text x="685" y="322" text-anchor="middle" font-size="13" fill="#5b21b6">子代理 researcher/critic</text>
+
+      <!-- 连线 -->
+      <line x1="140" y1="180" x2="185" y2="180" stroke="#2563eb" marker-end="url(#ar)"/>
+      <line x1="320" y1="180" x2="375" y2="180" stroke="#2563eb" marker-end="url(#ar)"/>
+      <line x1="540" y1="155" x2="595" y2="48" stroke="#0ea5e9" marker-end="url(#ar)"/>
+      <line x1="540" y1="170" x2="595" y2="150" stroke="#16a34a" marker-end="url(#ar)"/>
+      <line x1="540" y1="195" x2="595" y2="248" stroke="#d97706" marker-end="url(#ar)"/>
+      <line x1="540" y1="210" x2="595" y2="318" stroke="#7c3aed" marker-end="url(#ar)"/>
+      <!-- 产出 -->
+      <rect x="380" y="300" width="160" height="48" rx="10" fill="#ecfdf5" stroke="#16a34a"/>
+      <text x="460" y="328" text-anchor="middle" font-size="13" fill="#14532d">workspace/ 报告 md+xlsx</text>
+      <line x1="460" y1="290" x2="460" y2="298" stroke="#16a34a" marker-end="url(#ar)"/>
+      <!-- Crossref -->
+      <rect x="800" y="120" width="100" height="50" rx="10" fill="#fff" stroke="#6b7280"/>
+      <text x="850" y="150" text-anchor="middle" font-size="12" fill="#374151">Crossref API</text>
+      <line x1="770" y1="150" x2="795" y2="145" stroke="#6b7280" marker-end="url(#ar)"/>
+    </svg>
+    </div>
+    <p class="muted">用户 → Streamlit → Deep Agent →（模型 / 4 工具 / Skill+记忆 / 子代理）→ 产出报告到 workspace/；doi 工具联网访问 Crossref。</p>
+  </section>
+
+  <!-- 4. 四个工具 -->
+  <section class="slide">
+    <h2>三、核心能力：4 个自定义工具（答辩重点）</h2>
+    <table>
+      <thead><tr><th>工具</th><th>作用</th><th>关键技术点</th></tr></thead>
+      <tbody>
+        <tr><td><b>parse_reference</b></td><td>解析参考文献条目，统计漏引用</td><td>正则切分 <code>[n]</code> 条目；扫描正文引用标记做覆盖率比对</td></tr>
+        <tr><td><b>check_citation_format</b></td><td>对照 GB/T 7714-2015 查格式</td><td><span class="ok">确定性规则</span>：缺序号/类型码/年份、多作者未用"等"、标点混用、缺 DOI</td></tr>
+        <tr><td><b>search_paper_doi</b></td><td>Crossref 核验文献真实性</td><td>联网失败/超时<span class="warn">优雅降级</span>，不崩溃</td></tr>
+        <tr><td><b>generate_report</b></td><td>写出校验报告 md+xlsx</td><td>明确产出物，侧边栏可预览下载</td></tr>
+      </tbody>
+    </table>
+    <h3>为什么"工具"很关键</h3>
+    <p>工具把<b>事实来源</b>固定到国标规则与 Crossref，模型只负责编排——避免凭记忆<b>编造文献</b>。调用过程在界面"执行过程"面板<span class="ok">实时可见</span>。</p>
+  </section>
+
+  <!-- 5. Skill 与记忆 -->
+  <section class="slide">
+    <h2>四、Skill 与长期记忆</h2>
+    <div class="grid g2">
+      <div class="card">
+        <h3>📜 Skill：<code>skills/paper-check/SKILL.md</code></h3>
+        <p>封装整套流程：解析 → 逐条查格式 → 核验真实性 → 生成报告。带 YAML 头，<b>渐进式披露</b>——只在任务匹配时才加载，不占上下文。</p>
+      </div>
+      <div class="card">
+        <h3>🧠 长期记忆：<code>AGENTS.md</code></h3>
+        <p>记住默认格式要求 <b>GB/T 7714-2015</b>、文献类型码、多作者"等/et al."规则，以及学术诚信边界（只检查不代写）。每次对话自动注入。</p>
+      </div>
+    </div>
+    <div class="code">name: paper-check
+description: 检查参考文献格式、核验文献真实性、找出漏引用并生成报告……
+## 执行步骤
+1. parse_reference 解析 + 漏引统计
+2. 逐条 check_citation_format
+3. 重点文献 search_paper_doi 核验
+4. generate_report 生成 md+xlsx</div>
+  </section>
+
+  <!-- 6. 流式 + 权限 -->
+  <section class="slide">
+    <h2>五、流式展示与权限隔离（加分项）</h2>
+    <div class="grid g2">
+      <div class="card">
+        <h3>🔧 流式展示工具调用</h3>
+        <p>Streamlit 实时打印 Agent 思考、调用了<b>哪个工具</b>、返回了什么。这是答辩最直观的视觉点，老师最爱看。</p>
+      </div>
+      <div class="card">
+        <h3>🔒 权限隔离</h3>
+        <p>Agent <b>只允许写 <code>workspace/</code></b>，禁止读写 <code>.env</code> 与项目其他目录，防止越权——满足路径 A 加分项。</p>
+      </div>
+    </div>
+    <div class="card" style="margin-top:14px">
+      <h3>🧩 子代理分工（加分项）</h3>
+      <p><b>researcher</b> 负责联网核验/查规范；<b>critic</b> 负责审校验报告是否有遗漏。主 Agent 用 <code>task</code> 委派，子代理独立上下文，只回结论。</p>
+    </div>
+  </section>
+
+  <!-- 7. 与 demo5 关系 -->
+  <section class="slide">
+    <h2>六、与课堂 demo_5 的关系（可指出的增量）</h2>
+    <table>
+      <thead><tr><th>维度</th><th>demo_5 原样</th><th>本项目增量（自己写的）</th></tr></thead>
+      <tbody>
+        <tr><td>场景</td><td>课程助教</td><td><span class="ok">论文引用检查</span>新场景</td></tr>
+        <tr><td>工具</td><td>get_current_time / calculator</td><td><span class="ok">全新 4 个领域工具</span> tools.py</td></tr>
+        <tr><td>Skill</td><td>report-writer / code-explainer</td><td><span class="ok">新增 paper-check</span></td></tr>
+        <tr><td>记忆</td><td>课程信息</td><td><span class="ok">改写 AGENTS.md</span>（GB/T 7714）</td></tr>
+        <tr><td>界面</td><td>通用聊天</td><td>加<span class="ok">论文上传入口</span></td></tr>
+        <tr><td>产出物</td><td>写报告</td><td><span class="ok">结构化 md + Excel</span>（含漏引分析）</td></tr>
+      </tbody>
+    </table>
+    <p class="muted">复用且未改内核（已注明来源）：Deep Agents 组装、stream_events 流式、SQLite 历史、权限隔离写法，均来自 demo_5。</p>
+  </section>
+
+  <!-- 8. 思政合规 -->
+  <section class="slide">
+    <h2>七、思政与合规说明</h2>
+    <div class="grid g2">
+      <div class="card">
+        <h3>✅ 服务正当需求</h3>
+        <p>属于推荐选题中的<b>学术诚信</b>方向：帮助学生规范引用，不涉及代写、作弊。</p>
+      </div>
+      <div class="card">
+        <h3>🔐 隐私与边界</h3>
+        <p>不采集隐私；密钥仅在 <code>.env</code>（已被 .gitignore 忽略）；样例数据<b>全部虚构</b>。</p>
+      </div>
+    </div>
+    <h3>使用边界提示</h3>
+    <p>界面与报告均注明：<b>"本报告仅供修改参考，最终以学校/期刊规定与导师意见为准"</b>，不对制度结论做情绪化断言。</p>
+  </section>
+
+  <!-- 9. 演示步骤 -->
+  <section class="slide">
+    <h2>八、演示步骤（推荐话术）</h2>
+    <ol>
+      <li><b>上传论文</b>：侧边栏上传 <code>examples/sample_paper.md</code> → 点"用这篇论文开始检查"。</li>
+      <li><b>检查格式</b>：看到 <code>parse_reference</code> + 多次 <code>check_citation_format</code> 被调用。</li>
+      <li><b>核验真实性</b>：说"核验前 3 篇是否真实存在" → 看到 <code>search_paper_doi</code> 调 Crossref。</li>
+      <li><b>生成报告</b>：说"生成校验报告并导出 Excel" → <code>generate_report</code> 写出 md+xlsx。</li>
+      <li><b>展示产出</b>：侧边栏"产出文件"预览/下载《引用校验报告》。</li>
+    </ol>
+    <p class="muted">详见仓库内 <code>演示话术.md</code>。断网时 doi 工具优雅降级，其余完全可离线演示。</p>
+  </section>
+
+  <!-- 10. 不足与改进 -->
+  <section class="slide">
+    <h2>九、不足与后续改进</h2>
+    <div class="grid g2">
+      <div class="card">
+        <h3>当前不足</h3>
+        <ul>
+          <li>格式规则覆盖 GB/T 7714 常见项，未穷尽所有边缘情况</li>
+          <li>Crossref 对中文文献/预印本覆盖有限</li>
+          <li>报告 Excel 字段较简单</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>后续改进</h3>
+        <ul>
+          <li>接入学校格式模板，按学科定制规则</li>
+          <li>增加中文文献库（知网/万方）核验渠道</li>
+          <li>支持 PDF 直接解析、批量论文检查</li>
+          <li>导出更丰富的修订建议表</li>
+        </ul>
+      </div>
+    </div>
+    <p class="muted">感谢老师，欢迎提问。</p>
+  </section>
+
+</div>
+
+<div id="prev" class="navbtn">‹</div>
+<div id="next" class="navbtn">›</div>
+
+<script>
+(function(){
+  var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+  var i = 0;
+  function show(n){
+    i = (n + slides.length) % slides.length;
+    slides.forEach(function(s,idx){ s.classList.toggle('active', idx===i); });
+    var f = document.querySelector('.foot');
+    if(f) f.textContent = (i+1) + ' / ' + slides.length + '　← / → 翻页 · 空格下一步';
+  }
+  function prev(){ show(i-1); }
+  function next(){ show(i+1); }
+  document.getElementById('prev').addEventListener('click', prev);
+  document.getElementById('next').addEventListener('click', next);
+  document.addEventListener('keydown', function(e){
+    if(e.key==='ArrowRight'||e.key===' '||e.key==='PageDown'){ e.preventDefault(); next(); }
+    else if(e.key==='ArrowLeft'||e.key==='PageUp'){ e.preventDefault(); prev(); }
+    else if(e.key==='Home'){ show(0); }
+    else if(e.key==='End'){ show(slides.length-1); }
+  });
+  // 点击右侧 2/3 区域下一页，左侧 1/3 上一页
+  document.getElementById('deck').addEventListener('click', function(e){
+    if(e.target.closest('.navbtn')||e.target.closest('a')) return;
+    if(e.clientX > window.innerWidth*0.35) next(); else prev();
+  });
+  show(0);
+})();
+</script>
+</body>
+</html>
